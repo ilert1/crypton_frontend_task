@@ -11,22 +11,20 @@ export const EyeButton = (props: EyeButtonProps) => {
     const { showPassword, setShowPassword } = props;
 
     return (
-        <div
+        <button
+            type="button"
             className={cn(
-                "flex items-center justify-center cursor-pointer h-full pr-[10px]",
-                "bg-background"
+                "flex items-center justify-center pr-3",
+                "absolute inset-y-0 right-0",
+                "bg-neutral-950"
             )}
             onClick={() => setShowPassword(!showPassword)}
         >
             {showPassword ? (
-                <EyeOff
-                    className={cn("h-5 w-5 transition-colors duration-200 ")}
-                />
+                <EyeOff className="h-5 w-5 transition-colors duration-200 stroke-green-500" />
             ) : (
-                <Eye
-                    className={cn("h-5 w-5 transition-colors duration-200 ")}
-                />
+                <Eye className="h-5 w-5 transition-colors duration-200 stroke-green-500" />
             )}
-        </div>
+        </button>
     );
 };

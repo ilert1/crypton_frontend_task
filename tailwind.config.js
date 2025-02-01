@@ -47,6 +47,7 @@ module.exports = {
                 sm: "calc(var(--radius) - 4px)",
             },
             fontSize: {
+                "heading-2": ["28px", { lineHeight: "36px", fontWeight: 400 }],
                 label: ["12px", { lineHeight: "18px", fontWeight: 400 }],
                 input: ["14px", { lineHeight: "20px", fontWeight: 400 }],
             },
