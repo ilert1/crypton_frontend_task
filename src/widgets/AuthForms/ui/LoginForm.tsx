@@ -54,7 +54,7 @@ export const LoginForm = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-                <div className="flex flex-col gap-6 px-[60px] py-[50px]">
+                <div className="flex flex-col gap-6 px-[60px] pt-[50px] pb-[30px]">
                     <Heading as="h2" text="Login" />
                     <div className="flex flex-col gap-5">
                         <FormField
@@ -76,7 +76,7 @@ export const LoginForm = () => {
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            label="Email"
+                                            label="Password"
                                             {...field}
                                             type="password"
                                         />

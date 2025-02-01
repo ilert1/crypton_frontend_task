@@ -4,6 +4,11 @@
       "id": 1738412596699,
       "email": "admin@mail.ru",
       "password": "$2a$10$sd.OlOuRSawSmy8FPeEVAO5nRoxV54eCO4xhwE4Hpb/zjZ4ZL8bBa"
+    },
+    {
+      "id": 1738417123307,
+      "email": "b@mail.ru",
+      "password": "$2a$10$K66c6sCX.VYv2nAhWmC.teJEEW9UyW1t5ge63sAF1oBeO7kzZi9WC"
     }
   ]
 }

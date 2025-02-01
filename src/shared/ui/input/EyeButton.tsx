@@ -12,6 +12,7 @@ export const EyeButton = (props: EyeButtonProps) => {
 
     return (
         <button
+            tabIndex={-1}
             type="button"
             className={cn(
                 "flex items-center justify-center pr-3",

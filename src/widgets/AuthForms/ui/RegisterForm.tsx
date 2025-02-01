@@ -11,23 +11,30 @@ import { Input } from "@/shared/ui/input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useLoginMutation } from "../model/api/login/useLoginMutation";
 import { toast } from "sonner";
+import { useRegisterMutation } from "../model/api/register/useRegisterMutation";
 
 export const RegisterForm = () => {
-    const loginMutation = useLoginMutation();
+    const loginMutation = useRegisterMutation();
     const { mutate, isPending } = loginMutation;
 
-    const formSchema = z.object({
-        email: z.string().min(1).email(),
-        password: z.string().min(4),
-    });
+    const formSchema = z
+        .object({
+            email: z.string().min(1).email(),
+            password: z.string().min(4),
+            passwordRepeat: z.string(),
+        })
+        .refine((args) => args.password === args.passwordRepeat, {
+            message: "Passwords must match",
+            path: ["passwordRepeat"],
+        });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
             password: "",
+            passwordRepeat: "",
         },
     });
 
@@ -55,7 +62,7 @@ export const RegisterForm = () => {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <div className="flex flex-col gap-6 px-[60px] py-[50px]">
-                    <Heading as="h2" text="Login" />
+                    <Heading as="h2" text="Register" />
                     <div className="flex flex-col gap-5">
                         <FormField
                             control={form.control}
@@ -76,7 +83,23 @@ export const RegisterForm = () => {
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            label="Email"
+                                            label="Password"
+                                            {...field}
+                                            type="password"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="passwordRepeat"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            label="Repeat password"
                                             {...field}
                                             type="password"
                                         />
@@ -87,7 +110,7 @@ export const RegisterForm = () => {
                         />
                     </div>
                     <Button disabled={isPending} variant="loginRegisterButton">
-                        {isPending ? "Please wait" : "Login"}
+                        {isPending ? "Please wait" : "Register"}
                     </Button>
                 </div>
             </form>
