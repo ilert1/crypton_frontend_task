@@ -1,24 +1,19 @@
 import { create } from "zustand";
 
-export interface User {
-    id: string;
-    email: string;
-}
-
 export interface UserState {
-    authData: User | object;
     _inited: boolean;
-    setAuthData: (user: User) => void;
-    initAuthData: () => void;
+    setAuthData: (token: string) => void;
     logOut: () => void;
 }
 
 export const userStore = create<UserState>()((set) => ({
-    authData: {},
     _inited: false,
-    setAuthData: (user: User) => {
-        set(() => ({ authData: user }));
+    setAuthData: (token: string) => {
+        localStorage.setItem("token", token);
+        set(() => ({ _inited: true }));
     },
-    initAuthData: () => {},
-    logOut: () => {},
+    logOut: () => {
+        localStorage.removeItem("token");
+        set(() => ({ _inited: false }));
+    },
 }));

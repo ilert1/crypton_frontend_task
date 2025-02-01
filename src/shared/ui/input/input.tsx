@@ -34,8 +34,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             };
         }, []);
 
-        console.log(isFocused);
-
         return (
             <div className="flex flex-col gap-1 bg-transparent">
                 {label && <Label>{label}</Label>}

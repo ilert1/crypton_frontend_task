@@ -1,9 +1,9 @@
 {
   "users": [
     {
-      "id": "1",
-      "username": "admin",
-      "password": "12345"
+      "id": 1738412596699,
+      "email": "admin@mail.ru",
+      "password": "$2a$10$sd.OlOuRSawSmy8FPeEVAO5nRoxV54eCO4xhwE4Hpb/zjZ4ZL8bBa"
     }
   ]
 }

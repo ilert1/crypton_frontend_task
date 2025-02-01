@@ -1,20 +1,33 @@
 const fs = require("fs");
 const jsonServer = require("json-server");
 const path = require("path");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+
 const server = jsonServer.create();
 const router = jsonServer.router(path.resolve(__dirname, "db.json"));
 
-server.use(jsonServer.defaults({}));
+server.use(jsonServer.defaults());
 server.use(jsonServer.bodyParser);
+
+const SECRET_KEY = "your_secret_key"; // Лучше хранить в .env
+const TOKEN_EXPIRATION = "24h"; // Время жизни токена
 
 // Имитация задержки запроса
 server.use(async (req, res, next) => {
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise((resolve) => setTimeout(resolve, 800));
     next();
 });
 
-// Эндпоинт для регистрации
-server.post("/register", (req, res) => {
+// Функция генерации токена
+const generateToken = (user) => {
+    return jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, {
+        expiresIn: TOKEN_EXPIRATION,
+    });
+};
+
+// Эндпоинт регистрации
+server.post("/register", async (req, res) => {
     try {
         const { email, password } = req.body;
         const dbPath = path.resolve(__dirname, "db.json");
@@ -22,48 +35,72 @@ server.post("/register", (req, res) => {
 
         const { users = [] } = db;
 
-        if (users.some(user => user.email === email)) {
+        if (users.some((user) => user.email === email)) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        const newUser = { id: Date.now(), email, password };
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = { id: Date.now(), email, password: hashedPassword };
+
         users.push(newUser);
         db.users = users;
-
         fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
-        return res.status(201).json(newUser);
+
+        const token = generateToken(newUser);
+        return res.status(201).json({ token, user: newUser });
     } catch (e) {
         console.log(e);
         return res.status(500).json({ message: e.message });
     }
 });
 
-// Эндпоинт для логина
-server.post("/login", (req, res) => {
+// Эндпоинт логина
+server.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
-        const db = JSON.parse(fs.readFileSync(path.resolve(__dirname, "db.json"), "UTF-8"));
+        const db = JSON.parse(
+            fs.readFileSync(path.resolve(__dirname, "db.json"), "UTF-8")
+        );
+        console.log(email, password);
         const { users = [] } = db;
+        console.log(users[0].email === email);
+        const userFromDb = users.find((user) => user.email === email);
 
-        const userFromDb = users.find(user => user.email === email && user.password === password);
-
-        if (userFromDb) {
-            return res.json(userFromDb);
+        if (!userFromDb) {
+            return res.status(403).json({ message: "Invalid credentials" });
         }
 
-        return res.status(403).json({ message: "Invalid credentials" });
+        const isPasswordValid = await bcrypt.compare(
+            password,
+            userFromDb.password
+        );
+        if (!isPasswordValid) {
+            return res.status(403).json({ message: "Invalid credentials" });
+        }
+
+        const token = generateToken(userFromDb);
+        return res.json({ token, user: userFromDb });
     } catch (e) {
         console.log(e);
         return res.status(500).json({ message: e.message });
     }
 });
 
-// Проверяем, авторизован ли пользователь
+// Middleware проверки авторизации
 server.use((req, res, next) => {
-    if (!req.headers.authorization) {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
         return res.status(403).json({ message: "AUTH ERROR" });
     }
-    next();
+
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        req.user = decoded;
+        next();
+    } catch (e) {
+        return res.status(403).json({ message: "Invalid token" });
+    }
 });
 
 server.use(router);

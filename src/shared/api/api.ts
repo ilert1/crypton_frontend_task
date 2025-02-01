@@ -1,8 +1,8 @@
 import axios from "axios";
-import { __API__, USER_LOCALSTORAGE_KEY } from "../consts/localStorage";
+import { USER_LOCALSTORAGE_KEY } from "../consts/localStorage";
 
 export const $api = axios.create({
-    baseURL: localStorage.getItem(__API__)?.toString(),
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
 });
 
 $api.interceptors.request.use((config) => {

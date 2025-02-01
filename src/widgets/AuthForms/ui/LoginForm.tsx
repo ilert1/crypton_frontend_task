@@ -11,32 +11,45 @@ import { Input } from "@/shared/ui/input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useLoginMutation } from "../model/api/useLoginMutation";
+import { useLoginMutation } from "../model/api/login/useLoginMutation";
+import { toast } from "sonner";
 
 export const LoginForm = () => {
     const loginMutation = useLoginMutation();
+    const { mutate, isPending } = loginMutation;
 
     const formSchema = z.object({
-        username: z.string().min(1).email(),
+        email: z.string().min(1).email(),
         password: z.string().min(4),
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            email: "",
             password: "",
         },
     });
 
-    const onSubmit = ({
-        username,
+    const onSubmit = async ({
+        email,
         password,
     }: {
-        username: string;
+        email: string;
         password: string;
     }) => {
-        loginMutation.mutate({ username, password });
+        mutate(
+            { email, password },
+            {
+                onError: (error) => {
+                    toast.error("Error", {
+                        description: error.message,
+                        dismissible: true,
+                        duration: 3000,
+                    });
+                },
+            }
+        );
     };
     return (
         <Form {...form}>
@@ -46,7 +59,7 @@ export const LoginForm = () => {
                     <div className="flex flex-col gap-5">
                         <FormField
                             control={form.control}
-                            name="username"
+                            name="email"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -73,10 +86,9 @@ export const LoginForm = () => {
                             )}
                         />
                     </div>
-                    <Button variant="loginRegisterButton">Login</Button>
-                    {/* <span className="w-full text-center text-red-400">
-                        Wrong credentials
-                    </span> */}
+                    <Button disabled={isPending} variant="loginRegisterButton">
+                        {isPending ? "Please wait" : "Login"}
+                    </Button>
                 </div>
             </form>
         </Form>

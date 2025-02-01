@@ -1,15 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { loginByEmail } from "./loginByEmail";
+import { userStore } from "@/app/store/userStore";
 
 export const useLoginMutation = () => {
+    const setAuthData = userStore((state) => state.setAuthData);
+
     return useMutation({
         mutationFn: loginByEmail,
         onSuccess: (data) => {
-            console.log("Успешный вход:", data);
-            localStorage.setItem("token", data.token);
-        },
-        onError: (error) => {
-            console.error("Ошибка входа:", error);
+            setAuthData(data.token);
         },
     });
 };
