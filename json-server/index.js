@@ -86,6 +86,25 @@ server.post("/login", async (req, res) => {
     }
 });
 
+server.get("/profile", (req, res) => {
+    try {
+        const db = JSON.parse(
+            fs.readFileSync(path.resolve(__dirname, "db.json"), "UTF-8")
+        );
+        const { users = [] } = db;
+
+        const user = users.find((user) => user.id === req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        return res.json({ id: user.id, email: user.email });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: e.message });
+    }
+});
 // Middleware проверки авторизации
 server.use((req, res, next) => {
     const token = req.headers.authorization?.split(" ")[1];

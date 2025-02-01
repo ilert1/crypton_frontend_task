@@ -2,6 +2,7 @@ import { Header } from "@/widgets/Header";
 import { userStore } from "./store/userStore";
 import { Toaster } from "@/shared/ui/sonner";
 import { AuthContainer } from "@/widgets/AuthForms";
+import { Profile } from "@/widgets/Profile/ui/Profle";
 
 function App() {
     const _inited = userStore((state) => state._inited);
@@ -10,7 +11,7 @@ function App() {
         <div className="h-[100vh] relative flex flex-col">
             <Header />
             <div className="flex-1 flex items-center justify-center w-full bg-bg">
-                {_inited ? "" : <AuthContainer />}
+                {_inited ? <Profile /> : <AuthContainer />}
             </div>
             <Toaster />
         </div>

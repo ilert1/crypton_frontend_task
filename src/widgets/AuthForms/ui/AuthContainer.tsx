@@ -35,7 +35,7 @@ export const AuthContainer = () => {
             </AnimatePresence>
             <div className="flex items-center justify-center">
                 <Button
-                    className="w-52 bg-transparent text-red-400 mb-4"
+                    className="w-52 bg-transparent text-red-700 dark:text-red-400 mb-4"
                     variant="ghost"
                     onClick={() => setIsLogin((prev) => !prev)}
                 >

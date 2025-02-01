@@ -11,7 +11,7 @@ const labelVariants = cva(
     {
         variants: {
             variant: {
-                default: "!text-neutral-300 text-label",
+                default: "text-neutral-800 dark:!text-neutral-300 text-label",
             },
         },
         defaultVariants: {
