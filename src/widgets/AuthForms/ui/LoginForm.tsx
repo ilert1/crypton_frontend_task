@@ -19,7 +19,7 @@ export const LoginForm = () => {
     const { mutate, isPending } = loginMutation;
 
     const formSchema = z.object({
-        email: z.string().min(1).email(),
+        email: z.string().min(1, "").email(),
         password: z.string().min(4),
     });
 
@@ -54,7 +54,7 @@ export const LoginForm = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-                <div className="flex flex-col gap-6 px-[60px] pt-[50px] pb-[30px]">
+                <div className="flex flex-col gap-6 px-[20px] sm:px-[60px] pt-[50px] pb-[30px]">
                     <Heading as="h2" text="Login" />
                     <div className="flex flex-col gap-5">
                         <FormField

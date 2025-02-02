@@ -5,13 +5,16 @@ import App from "./app/App.tsx";
 import { ThemeProvider } from "./app/providers/ThemeProvider.tsx";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./shared/api/react_query.ts";
+import { ErrorBoundary } from "./app/providers/ErrorBoundary/index.ts";
 
 createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
         <ThemeProvider>
-            <StrictMode>
-                <App />
-            </StrictMode>
+            <ErrorBoundary>
+                <StrictMode>
+                    <App />
+                </StrictMode>
+            </ErrorBoundary>
         </ThemeProvider>
     </QueryClientProvider>
 );

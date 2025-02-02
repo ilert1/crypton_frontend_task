@@ -92,8 +92,8 @@ server.get("/profile", (req, res) => {
             fs.readFileSync(path.resolve(__dirname, "db.json"), "UTF-8")
         );
         const { users = [] } = db;
-
-        const user = users.find((user) => user.id === req.user.id);
+        const reqId = jwt.decode(req.headers.authorization).id;
+        const user = users.find((user) => user.id === reqId);
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });

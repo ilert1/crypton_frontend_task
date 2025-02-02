@@ -17,7 +17,7 @@ export const EyeButton = (props: EyeButtonProps) => {
             className={cn(
                 "flex items-center justify-center pr-3",
                 "absolute inset-y-0 right-0",
-                "bg-neutral-950"
+                " bg-neutral-50 dark:bg-neutral-950"
             )}
             onClick={() => setShowPassword(!showPassword)}
         >
