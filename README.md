@@ -1,50 +1,42 @@
-# React + TypeScript + Vite
+# Crypton frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Данное приложения - решение тестового задания
 
-Currently, two official plugins are available:
+## Технологии использованные при разработке
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   React + typescript + vite
+-   Zustand
+-   shadcnui
+-   tailwindcss
+-   react-query
+-   react-hook-form + zod
+-   json-server (для имитации бэкенда)
 
-## Expanding the ESLint configuration
+## Также был реализован весь дополнительный функционал из ТЗ
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+-   При регистрации есть поле я потверждением пароля
+-   Все поля форм валидируются
+-   Есть простая анимация перехода меджу формами
+-   Есть темная/светлая тема, которая переключается с помощью switch в header-е.
 
-- Configure the top-level `parserOptions` property like this:
+## Запуск приложения
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Склонируйте репозиторий
+
+```bash
+  git clone https://github.com/ilert1/crypton_frontend_task
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Установите зависимости
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```bash
+  npm install
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+<p style="color:red;">!!!Обязательно создайте файл .env и скопируйте в него данные из .env.example!!!</p>
+
+Следующая команда запустит concurrently и фронтэнд и json-server
+
+```bash
+  npm run start:dev
 ```
