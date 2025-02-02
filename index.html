@@ -5,83 +5,9 @@
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Vite + React + TS</title>
-        <style>
-            .loader-container {
-                position: fixed;
-                inset: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-size: cover;
-                background-repeat: no-repeat;
-            }
-            .loader-container__dark {
-                background-image: url("/LoginBackground.svg");
-                background-color: rgba(19, 35, 44, 1);
-            }
-            .loader-container__light {
-                background-image: url("/LoginBackgroundLight.svg");
-                background-color: #f2f2f2;
-            }
-
-            .loader {
-                width: 6rem;
-                height: 6rem;
-                animation: spin 1s linear infinite;
-            }
-
-            .loader-circle {
-                stroke-dasharray: 282.7;
-                stroke-dashoffset: 70.68;
-            }
-
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-        </style>
     </head>
     <body>
-        <div id="root">
-            <!-- <div class="loader-container loader-container__dark">
-                <div class="loader">
-                    <svg viewBox="0 0 100 100">
-                        <defs>
-                            <lineargradient
-                                id="spinner-gradient"
-                                x1="0%"
-                                y1="0%"
-                                x2="100%"
-                            >
-                                <stop
-                                    offset="28.01%"
-                                    stop-color="#57CD8C"
-                                ></stop>
-                                <stop
-                                    offset="69.22%"
-                                    stop-color="#57CD8C00"
-                                ></stop>
-                            </lineargradient>
-                        </defs>
-                        <circle
-                            class="loader-circle"
-                            fill="none"
-                            stroke="url(#spinner-gradient)"
-                            cx="50"
-                            cy="50"
-                            r="45"
-                            stroke-width="10"
-                            stroke-linecap="round"
-                        ></circle>
-                    </svg>
-                </div>
-            </div>-->
-        </div>
+        <div id="root"></div>
         <script type="module" src="/src/main.tsx"></script>
     </body>
 </html>

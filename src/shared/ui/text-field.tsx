@@ -1,4 +1,3 @@
-import { LucideProps } from "lucide-react";
 import { ReactNode } from "react";
 
 interface TextFieldProps {
