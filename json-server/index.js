@@ -10,7 +10,7 @@ const router = jsonServer.router(path.resolve(__dirname, "db.json"));
 server.use(jsonServer.defaults());
 server.use(jsonServer.bodyParser);
 
-const SECRET_KEY = "your_secret_key"; // Лучше хранить в .env
+const SECRET_KEY = "your_secret_key"; // Лучше хранить в .env или в другом безопасном хранилищие
 const TOKEN_EXPIRATION = "24h"; // Время жизни токена
 
 // Имитация задержки запроса

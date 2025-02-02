@@ -8,7 +8,6 @@ export const AuthContainer = () => {
     const [isLogin, setIsLogin] = useState(true);
 
     return (
-        // <div className="relative w-[440px] bg-neutral-950 p-6 rounded-3xl">
         <div className="bg-neutral-50 dark:bg-neutral-950 rounded-3xl max-w-[440px] w-full flex flex-col mx-4">
             <AnimatePresence mode="wait">
                 {isLogin ? (
