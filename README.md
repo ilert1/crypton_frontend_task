@@ -27,14 +27,15 @@
   git clone https://github.com/ilert1/crypton_frontend_task
 ```
 
+#### В корне проекта оздайте файл .env и скопируйте в него данные из .env.example
+
 Установите зависимости
 
 ```bash
   npm install
 ```
 
-<span style="color:red;">!!!Обязательно создайте файл .env и скопируйте в него данные из .env.example!!!</span>
-Следующая команда запустит concurrently и фронтэнд и json-server
+Следующая команда запустит одновременно и фронтэнд, и json-server
 
 ```bash
   npm run start:dev
