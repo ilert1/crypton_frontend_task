@@ -11,7 +11,7 @@ export interface UserState {
     logOut: () => void;
 }
 
-export const userStore = create<UserState>()((set) => ({
+export const userStore = create<UserState>()(set => ({
     _inited: false,
     token: localStorage.getItem(USER_LOCALSTORAGE_KEY) ?? null,
     isLoading: true,
@@ -21,25 +21,25 @@ export const userStore = create<UserState>()((set) => ({
     // Я мог сразу в стейт сохранить, но не стал чтобы демонстрировать Skeleton
     checkAuth: async () => {
         const token = localStorage.getItem(USER_LOCALSTORAGE_KEY);
-        if (!token) return;
+        if (!token) {
+            set(() => ({ isLoading: false }));
+            return;
+        }
 
         try {
             const response = await $api.get("/profile", {
-                headers: { Authorization: `Bearer ${token}` },
+                headers: { Authorization: `Bearer ${token}` }
             });
-
             if (response.status === 200) {
-                set(() => ({ _inited: true, token }));
+                set(() => ({ _inited: true, token, isLoading: false }));
             } else {
-                set(() => ({ _inited: false, token: null }));
+                set(() => ({ _inited: false, token: null, isLoading: false }));
                 localStorage.removeItem(USER_LOCALSTORAGE_KEY);
             }
         } catch (error) {
-            console.log("Token expired or invalid:", error);
-            set(() => ({ _inited: false, token: null }));
+            set(() => ({ _inited: false, token: null, isLoading: false }));
             localStorage.removeItem(USER_LOCALSTORAGE_KEY);
         }
-        set(() => ({ isLoading: false }));
     },
 
     setAuthData: (token: string) => {
@@ -50,5 +50,5 @@ export const userStore = create<UserState>()((set) => ({
     logOut: () => {
         localStorage.removeItem(USER_LOCALSTORAGE_KEY);
         set(() => ({ _inited: false, token: null }));
-    },
+    }
 }));
